@@ -8,13 +8,13 @@
     <packaging>pom</packaging>
     <version>3.4.1</version>
 
-    <name>twelvet</name>
-    <url>https://twelvet.cn</url>
-    <description>TwelveT 极速开发后台管理系统</description>
+    <name>iSea-AI</name>
+    <url>https://github.com/rainyak8/iSea-AI</url>
+    <description>iSea-AI</description>
 
     <organization>
-        <name>twelvet</name>
-        <url>https://twelvet.cn</url>
+        <name>iSea-AI</name>
+        <url>https://github.com/rainyak8/iSea-AI</url>
     </organization>
 
     <licenses>
@@ -28,8 +28,8 @@
     <developers>
         <developer>
             <id>L</id>
-            <name>twelvet</name>
-            <email>2471835953@qq.com</email>
+            <name>iSea-AI</name>
+            <email>-</email>
         </developer>
     </developers>
 
@@ -68,6 +68,7 @@
         <spring.checkstyle.plugin>0.0.39</spring.checkstyle.plugin>
         <git.commit.plugin>8.0.2</git.commit.plugin>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <spring.ai.alibaba.version>1.0.0-M5.1</spring.ai.alibaba.version>
     </properties>
 
     <!--依赖版本声明-->
@@ -300,6 +301,12 @@
                 <version>${twelvet.version}</version>
             </dependency>
 
+            <!-- Spring AI Alibaba-->
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter</artifactId>
+                <version>1.0.0-M5.1</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -335,6 +342,7 @@
         <module>twelvet-gen</module>
         <module>twelvet-quartz</module>
         <module>twelvet-dfs</module>
+        <module>isea-ai</module>
     </modules>
 
     <repositories>
