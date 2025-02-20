@@ -9,7 +9,7 @@ server:
 # 项目设置
 twelvet:
   #项目名称
-  name: TwelveT Fast
+  name: iSea AI
   version: 3.4.0
   copyrightYear: 2023
 
@@ -81,14 +81,14 @@ swagger:
     # 标题
     title: '标题：${twelvet.name}后台管理系统_接口文档'
     # 描述
-    description: 'TwelveT 极速开发后台管理系统'
+    description: '${twelvet.name}'
     # 版本
     version: '版本号: ${twelvet.version}'
     # 作者信息
     contact:
-      name: twelvet
-      email: 2471835953@qq.com
-      url: https://gitee.com/twelvet/twelvet-fast
+      name: iSea AI
+      email: lzj8507@ouc.edu.cn
+      url: https://github.com/rainyak8/iSea-AI
   components:
     # 鉴权方式配置
     security-schemes:
