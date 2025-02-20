@@ -17,14 +17,55 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+        <!-- Fast 数据库 -->
+        <dependency>
+            <groupId>com.twelvet</groupId>
+            <artifactId>twelvet-framework-datasource</artifactId>
+        </dependency>
+
+        <!-- Fast jdbc -->
+        <dependency>
+            <groupId>com.twelvet</groupId>
+            <artifactId>twelvet-framework-jdbc</artifactId>
+        </dependency>
+
+        <!-- Fast datascope -->
+        <dependency>
+            <groupId>com.twelvet</groupId>
+            <artifactId>twelvet-framework-datascope</artifactId>
+        </dependency>
+
+        <!-- Fast Redis -->
+        <dependency>
+            <groupId>com.twelvet</groupId>
+            <artifactId>twelvet-framework-redis</artifactId>
+        </dependency>
+
+        <!-- swagger -->
         <dependency>
             <groupId>com.twelvet</groupId>
             <artifactId>twelvet-framework-core</artifactId>
         </dependency>
+
+        <!-- security -->
+        <dependency>
+            <groupId>com.twelvet</groupId>
+            <artifactId>twelvet-framework-security</artifactId>
+        </dependency>
+
+        <!-- log -->
         <dependency>
             <groupId>com.twelvet</groupId>
             <artifactId>twelvet-framework-log</artifactId>
         </dependency>
+
+        <!--幂等-->
+        <dependency>
+            <groupId>com.pig4cloud.plugin</groupId>
+            <artifactId>idempotent-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!--spring-ai-alibaba-->
         <dependency>
             <groupId>com.alibaba.cloud.ai</groupId>
             <artifactId>spring-ai-alibaba-starter</artifactId>
