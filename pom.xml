@@ -84,6 +84,13 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- Spring AI Alibaba-->
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter</artifactId>
+                <version>1.0.0-M5.1</version>
+            </dependency>
+
             <!--redisson-->
             <dependency>
                 <groupId>org.redisson</groupId>
@@ -301,11 +308,18 @@
                 <version>${twelvet.version}</version>
             </dependency>
 
-            <!-- Spring AI Alibaba-->
+            <!-- iSea AI API-->
             <dependency>
-                <groupId>com.alibaba.cloud.ai</groupId>
-                <artifactId>spring-ai-alibaba-starter</artifactId>
-                <version>1.0.0-M5.1</version>
+                <groupId>com.twelvet</groupId>
+                <artifactId>isea-ai-api</artifactId>
+                <version>${twelvet.version}</version>
+            </dependency>
+
+            <!-- iSea AI-->
+            <dependency>
+                <groupId>com.twelvet</groupId>
+                <artifactId>isea-ai-server</artifactId>
+                <version>${twelvet.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

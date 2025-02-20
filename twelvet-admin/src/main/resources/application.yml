@@ -22,6 +22,10 @@ spring:
   application:
     # 应用名称
     name: @artifactId@
+  ai:
+    openai:
+      api-key: app-hj6Ik0B1aC8aUvTqzboSIs8x
+      base-url: http://localhost:3100
   profiles:
     active: @active@
   jackson:
@@ -117,6 +121,9 @@ springdoc:
       packages-to-scan: com.twelvet.quartz
     - group: 4.代码生成模块
       packages-to-scan: com.twelvet.gen
+    - group: 5.AI模块
+      packages-to-scan: com.twelvet.ai
+
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
   enable: true

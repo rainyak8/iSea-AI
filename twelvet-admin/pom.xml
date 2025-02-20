@@ -45,6 +45,12 @@
             <artifactId>twelvet-quartz-server</artifactId>
         </dependency>
 
+        <!-- iSea AI-->
+        <dependency>
+            <groupId>com.twelvet</groupId>
+            <artifactId>isea-ai-server</artifactId>
+            <version>${twelvet.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

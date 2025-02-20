@@ -1,19 +1,16 @@
 package com.twelvet.ai.server.service.impl;
 
-import org.springframework.ai.chat.client.ChatClient;
+import java.time.LocalDate;
+
 import com.twelvet.ai.server.service.DifyAIChatService;
-import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
-import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
-import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.vectorstore.SearchRequest;
-import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.ai.openai.OpenAiChatOptions;
 import reactor.core.publisher.Flux;
 
-import java.time.LocalDate;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.stereotype.Service;
 
 import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
 import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY;
@@ -23,31 +20,33 @@ import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvis
  * @Description: Dify OUC AI对话
  */
 @Service
+@Slf4j
 public class DifyAIChatServiceImpl implements DifyAIChatService {
+	private final ChatClient openAiChatClient;
 
-	private static final Logger log = LoggerFactory.getLogger(DifyAIChatServiceImpl.class);
+	public DifyAIChatServiceImpl(ChatClient.Builder modelBuilder, ChatMemory chatMemory) {
 
-	private final ChatClient chatClient;
-
-	public DifyAIChatServiceImpl(ChatClient.Builder modelBuilder, VectorStore vectorStore, ChatMemory chatMemory) {
-
-		this.chatClient = modelBuilder
+		this.openAiChatClient = modelBuilder
 				.defaultSystem("""
 						您是“中国海洋大学”的聊天支持代理。请以友好、乐于助人且愉快的方式来回复。
 						您正在通过在线聊天系统与客户互动。
 					   请讲中文。
 					   今天的日期是 {current_date}.
 					""")
+				.defaultOptions(
+						OpenAiChatOptions.builder()
+								.withTopP(0.7)
+								.build()
+				)
 				.defaultAdvisors(
 						new PromptChatMemoryAdvisor(chatMemory)) // Chat Memory
-				.defaultFunctions("介绍中国海洋大学")
 				.build();
 	}
 
 	@Override
 	public String simpleChat(String chatId, String userMessageContent) {
 		log.info("DifyAIChatServiceImpl.simpleChat start: chatId {} userMessageContent {}", chatId, userMessageContent);
-		return this.chatClient.prompt()
+		return this.openAiChatClient.prompt()
 				.system(s -> s.param("current_date", LocalDate.now().toString()))
 				.user(userMessageContent)
 				.advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
@@ -58,7 +57,7 @@ public class DifyAIChatServiceImpl implements DifyAIChatService {
 	@Override
 	public Flux<String> streamChat(String chatId, String userMessageContent) {
 		log.info("DifyAIChatServiceImpl.streamChat start: chatId {} userMessageContent {}", chatId, userMessageContent);
-		return this.chatClient.prompt()
+		return this.openAiChatClient.prompt()
 				.system(s -> s.param("current_date", LocalDate.now().toString()))
 				.user(userMessageContent)
 				.advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
