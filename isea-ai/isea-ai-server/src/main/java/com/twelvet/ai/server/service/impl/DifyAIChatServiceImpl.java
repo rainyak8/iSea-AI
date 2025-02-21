@@ -2,7 +2,10 @@ package com.twelvet.ai.server.service.impl;
 
 import java.time.LocalDate;
 
+import com.twelvet.ai.server.model.ChatSession;
+import com.twelvet.ai.server.service.ChatSessionService;
 import com.twelvet.ai.server.service.DifyAIChatService;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import reactor.core.publisher.Flux;
@@ -24,6 +27,9 @@ import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvis
 public class DifyAIChatServiceImpl implements DifyAIChatService {
 	private final ChatClient openAiChatClient;
 
+	@Resource
+	private ChatSessionService chatSessionService;
+
 	public DifyAIChatServiceImpl(ChatClient.Builder modelBuilder, ChatMemory chatMemory) {
 
 		this.openAiChatClient = modelBuilder
@@ -44,25 +50,24 @@ public class DifyAIChatServiceImpl implements DifyAIChatService {
 	}
 
 	@Override
-	public String simpleChat(String chatId, String userMessageContent) {
-		log.info("DifyAIChatServiceImpl.simpleChat start: chatId {} userMessageContent {}", chatId, userMessageContent);
+	public String simpleChat(String sessionId, String userMessageContent) {
+		log.info("DifyAIChatServiceImpl.simpleChat start: sessionId {} userMessageContent {}", sessionId, userMessageContent);
 		return this.openAiChatClient.prompt()
 				.system(s -> s.param("current_date", LocalDate.now().toString()))
 				.user(userMessageContent)
-				.advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
+				.advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, sessionId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
 				.call()
 				.content();
 	}
 
 	@Override
-	public Flux<String> streamChat(String chatId, String userMessageContent) {
-		log.info("DifyAIChatServiceImpl.streamChat start: chatId {} userMessageContent {}", chatId, userMessageContent);
+	public Flux<String> streamChat(String sessionId, String userMessageContent) {
+		log.info("DifyAIChatServiceImpl.streamChat start: sessionId {} userMessageContent {}", sessionId, userMessageContent);
 		return this.openAiChatClient.prompt()
 				.system(s -> s.param("current_date", LocalDate.now().toString()))
 				.user(userMessageContent)
-				.advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
+				.advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, sessionId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
 				.stream()
 				.content();
 	}
-
 }
