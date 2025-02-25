@@ -1,6 +1,8 @@
 package com.twelvet.ai.server.service.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.twelvet.ai.server.model.ChatSession;
+import com.twelvet.ai.server.model.SessionChatMemory;
 import com.twelvet.ai.server.service.ChatSessionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -20,7 +22,7 @@ public class ChatSessionServiceImpl implements ChatSessionService {
     private final Map<String, ChatSession> activeSessions = new HashMap<>();
 
     @Override
-    public ChatSession createSession(String userId) {
+    public ChatSession createSession(Long userId) {
         try{
             // 生成一个唯一的 sessionId
             String sessionId = UUID.randomUUID().toString();
@@ -37,8 +39,6 @@ public class ChatSessionServiceImpl implements ChatSessionService {
     @Override
     public ChatSession getSessionById(String sessionId) {
         try{
-            // 删除会话
-            activeSessions.remove(sessionId);
             return activeSessions.get(sessionId);
         } catch (Exception e){
             log.error("ChatSessionServiceImpl.getSessionById error: sessionId {}", sessionId, e);
@@ -76,8 +76,7 @@ public class ChatSessionServiceImpl implements ChatSessionService {
     public boolean clearSessionChatMemory(String sessionId){
         try{
             ChatSession session = activeSessions.get(sessionId);
-            ChatMemory chatMemory = new InMemoryChatMemory();
-            session.setChatMemory(chatMemory);
+            session.setChatMemory(new SessionChatMemory());  // 清空会话内存
             return true;
         } catch (Exception e){
             log.error("ChatSessionServiceImpl.clearSessionChatMemory error: sessionId {}", sessionId, e);

@@ -13,10 +13,10 @@ public interface DifyAIChatService {
 	/**
 	 * 简单调用
 	 */
-	String simpleChat(String chatId, String userMessageContent);
+	String simpleChat(String sessionId, Long userId, String userMessageContent);
 
 	/**
 	 * 流式调用
 	 */
-	Flux<String> streamChat(String chatId, String userMessageContent);
+	Flux<String> streamChat(String sessionId, Long userId, String userMessageContent);
 }
